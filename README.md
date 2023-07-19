@@ -1,13 +1,11 @@
-> **Warning**  
-> The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
-> the box Vercel functionality and will be removed in Remix v2.  
-> This means you don't have to use the Vercel template & can just use the Remix
-> template instead.
+This template contains setup for:
+- [Remix runtime](remix.run)
+- [Supabase backend-as-a-service](supabase.com)
+- [Vercel deployment](vercel.com)
+- [TailwindCSS styles](tailwindcss.com)
 
-# Welcome to Remix!
 
-- [Remix Docs](https://remix.run/docs)
-
+(The following is instructions from the Remix template README)
 ## Deployment
 
 After having run the `create-remix` command and selected "Vercel" as a deployment target, you only need to [import your Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
