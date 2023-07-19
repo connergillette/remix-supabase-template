@@ -1,41 +1,47 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import { ActionFunction, LoaderArgs, LoaderFunction, json, redirect } from '@remix-run/node'
+import { createServerClient } from '@supabase/auth-helpers-remix'
+import { useActionData, useLoaderData } from 'react-router'
 
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+export const action: ActionFunction = async ({ request }) => {
+  const response = new Response()
+
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL || '',
+    process.env.SUPABASE_KEY || '',
+    { request, response }
+  )
+
+  const { data: { session }} = await supabase.auth.getSession()
+
+  // ...perform action
+
+  return redirect('/')
+}
+
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  const response = new Response()
+  // an empty response is required for the auth helpers
+  // to set cookies to manage auth
+
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL || '',
+    process.env.SUPABASE_KEY || '',
+    { request, response }
+  )
+  const { data: { session }} = await supabase.auth.getSession()
+
+  /// ...resolve loader
+
+  return json({ session })
+}
 
 export default function Index() {
+  const { session } = useLoaderData()
+  const actionData = useActionData()
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div>
+      <h1 className="text-2xl w-full text-center pt-10">Welcome to Project Name!</h1>
     </div>
   );
 }
